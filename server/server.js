@@ -3,6 +3,10 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+
+// Webhook route needs raw body BEFORE express.json() parses it
+app.use("/webhook", express.raw({ type: "application/json" }));
+
 app.use(express.json());
 app.use(
   cors({
@@ -24,6 +28,8 @@ app.post("/create-checkout-session", async (req, res) => {
       mode: "payment",
       line_items: req.body.items.map((item) => {
         const storeItem = storeItems.get(item.id);
+        if (!storeItem)
+          return res.status(400).json({ error: `Unknown item id: ${item.id}` });
         return {
           price_data: {
             currency: "usd",
@@ -44,4 +50,31 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-app.listen(3000);
+app.post("/webhook", (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET,
+    );
+  } catch (e) {
+    console.log("Webhook signature verification failed:", e.message);
+    return res.status(400).send(`Webhook Error: ${e.message}`);
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    console.log("Payment successful!");
+    console.log("  Session ID:", session.id);
+    console.log("  Amount paid:", session.amount_total / 100, session.currency.toUpperCase());
+    console.log("  Customer email:", session.customer_details?.email);
+    // In a real app: save order to database, send confirmation email, etc.
+  }
+
+  res.json({ received: true });
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
