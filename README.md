@@ -1,16 +1,13 @@
-# React + Vite
+This project is made to learn Redux Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img width="1881" height="906" alt="image" src="https://github.com/user-attachments/assets/9b3d9a08-ab85-4ce2-a264-5138027191f4" />
 
-Currently, two official plugins are available:
+Project Overview
+- It renders items searched in the search bar.
+- The items can be selected either in photo format or in video format
+- The items can be saved and saved items are seen in collection page
+- The items can be removed from collection and collection can be cleared.
+- Photos are fetched from unsplash api and videos are fetched from pexels api.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
