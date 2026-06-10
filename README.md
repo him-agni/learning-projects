@@ -19,10 +19,10 @@ Combines all slice reducers into one global store.
 searchSlice.js — manages query, activeTab, results, loading, error
 collectionSlice.js — manages saved items, synced to localStorage
 
-Each slice uses createSlice({ name, initialState, reducers }) and exports:
+ Each slice uses createSlice({ name, initialState, reducers }) and exports:
 
-The reducer (default export → goes into store)
-The action creators (named exports → used to dispatch)
+ The reducer (default export → goes into store)
+ The action creators (named exports → used to dispatch)
 
 3. Provide the Store (wraps the whole app)
 <Provider store={store}> <App /> </Provider>
